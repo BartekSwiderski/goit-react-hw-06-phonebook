@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { initialContacts } from "../utils/localStorage";
+import { initialContacts } from "./localStorage";
 import { addContact, deleteContact, filterContacts } from "./actions";
 
 const contactsReducer = createReducer(initialContacts, {
