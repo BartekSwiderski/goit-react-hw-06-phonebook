@@ -1,7 +1,7 @@
 const saveToLocalStore = (key, value) => {
   try {
-    const serializedState = JSON.stringify(value);
-    localStorage.setItem(key, serializedState);
+    const localStorageItem = JSON.stringify(value);
+    localStorage.setItem(key, localStorageItem);
   } catch (error) {
     console.error("Set state error: ", error.message);
   }
@@ -9,8 +9,8 @@ const saveToLocalStore = (key, value) => {
 
 const loadLocalStore = (key) => {
   try {
-    const serializedState = localStorage.getItem(key);
-    return serializedState === null ? undefined : JSON.parse(serializedState);
+    const localStorageItem = localStorage.getItem(key);
+    return localStorageItem === null ? undefined : JSON.parse(localStorageItem);
   } catch (error) {
     console.error("Get state error: ", error.message);
   }
