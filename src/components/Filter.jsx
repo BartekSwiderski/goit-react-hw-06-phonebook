@@ -2,7 +2,7 @@ import styles from "./Phonebook.module.css";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { filterContacts } from "../../redux/actions";
+import { filterContacts } from "../redux/actions";
 
 const Filter = () => {
   const filter = useSelector((state) => state.filter);

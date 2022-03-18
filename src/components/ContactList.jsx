@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteContact } from "../../redux/actions";
-import { saveToLocalStore } from "../../utils/localStorage";
+import { deleteContact } from "../redux/actions";
+import { saveToLocalStore } from "../redux/localStorage";
 import styles from "./Phonebook.module.css";
 
 const getVisibleContacts = (contacts, filter) => {
