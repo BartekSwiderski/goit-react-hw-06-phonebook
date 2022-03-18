@@ -1,32 +1,56 @@
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteContact } from "../../redux/actions";
+import { saveToLocalStore } from "../../utils/localStorage";
 import styles from "./Phonebook.module.css";
 
-const ContactList = ({ filter, del, data }) => {
-  if (data.length !== 0) {
-    return (
-      <ul className={styles.contactsList} style={{ padding: 0 }}>
-        {data.map(({ id, name, number }) => {
-          return name.toLowerCase().includes(filter.toLowerCase()) ? (
-            <li key={id} className={styles.contactItem}>
-              <div>
-                <span className={styles.contactName}>{name}</span>
-              </div>
-              <div>
-                <span className={styles.contactNumber}>tel. {number}</span>
-              </div>
-              <button className={styles.contactDel} onClick={() => del(id)}>
-                Delete
-              </button>
-            </li>
-          ) : (
-            <></>
-          );
-        })}
+const getVisibleContacts = (contacts, filter) => {
+  const normalizedFilter = filter.toLowerCase().trim();
+
+  return contacts.filter(
+    (contact) =>
+      contact.name.toLowerCase().includes(normalizedFilter) ||
+      contact.number.includes(filter)
+  );
+};
+
+const Contact = () => {
+  const contacts = useSelector(({ contacts, filter }) =>
+    getVisibleContacts(contacts, filter)
+  );
+  const dispatch = useDispatch();
+  saveToLocalStore("CONTACTS", contacts);
+
+  return (
+    <>
+      {contacts.map(({ id, name, number }) => (
+        <li key={id} className={styles.contactItem}>
+          <div>
+            <span className={styles.contactName}>{name}</span>
+          </div>
+          <div>
+            <span className={styles.contactNumber}>tel. {number}</span>
+          </div>
+          <button
+            className={styles.contactDel}
+            onClick={() => dispatch(deleteContact(id))}
+          >
+            Delete
+          </button>
+        </li>
+      ))}
+    </>
+  );
+};
+
+const ContactList = () => {
+  return (
+    <div>
+      <ul>
+        <Contact />
       </ul>
-    );
-  } else
-    return (
-      <p className={styles.contactEmpty}>You have no saved contacts ಥ_ಥ</p>
-    );
+    </div>
+  );
 };
 
 export default ContactList;
