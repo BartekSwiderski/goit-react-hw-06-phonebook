@@ -1,8 +1,31 @@
 import styles from "./Phonebook.module.css";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addContact } from "../../redux/actions";
 
-const ContactForm = ({ save, changeForm }) => {
+const ContactForm = () => {
+  const contacts = useSelector((state) => state.contacts);
+  const dispatch = useDispatch();
+
+  const submitForm = (e) => {
+    const form = e.target;
+    const name = form.name.value;
+    const number = form.number.value;
+    e.preventDefault();
+    if (contacts.some((contacts) => contacts.name === name)) {
+      alert(`${name} is already in contacts`);
+      return;
+    }
+    if (contacts.some((contacts) => contacts.number === number)) {
+      alert(`${number} is already in contacts`);
+      return;
+    }
+    dispatch(addContact({ name, number }));
+    form.reset();
+  };
+
   return (
-    <form className={styles.form} onSubmit={save}>
+    <form className={styles.form} onSubmit={submitForm}>
       <div className={styles.formItem}>
         <label className={styles.formLabel} htmlFor="name">
           Name

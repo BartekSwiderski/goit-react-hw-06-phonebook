@@ -1,6 +1,15 @@
 import styles from "./Phonebook.module.css";
+import React from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { filterContacts } from "../../redux/actions";
 
-const Filter = ({ setFilter }) => {
+const Filter = () => {
+  const filter = useSelector((state) => state.filter);
+  const dispatch = useDispatch();
+  const onFilter = (e) => {
+    dispatch(filterContacts(e.target.value));
+  };
   return (
     <div className={styles.filter}>
       <label className={styles.filterLabel} htmlFor="filter">
@@ -11,9 +20,9 @@ const Filter = ({ setFilter }) => {
         required
         type="text"
         name="filter"
-        onChange={setFilter}
+        onChange={onFilter}
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-        title="Please give me a name."
+        value={filter}
       />
     </div>
   );
